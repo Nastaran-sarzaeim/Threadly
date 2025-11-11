@@ -18,7 +18,7 @@ export default function Navbar() {
     <nav className="flex items-center justify-between py-4 px-8 shadow-sm bg-white sticky top-0 z-50">
       <h1 className="text-2xl font-bold text-yellow-700">Threadly</h1>
 
-      <ul className="flex items-center gap-8 text-gray-700 font-medium">
+      <ul className="hidden md:flex items-center gap-8 text-gray-700 font-medium">
         {menuItems.map((item) => (
           <li key={item.name} className="flex flex-row items-center cursor-pointer">
             {(pathname === item.href) && (
