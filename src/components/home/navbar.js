@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { SearchNormal, ShoppingCart, User } from "iconsax-react";
 import { usePathname } from "next/navigation";
 
@@ -8,7 +9,7 @@ const menuItems = [
   { name: "فروشگاه", href: "/shop" },
   { name: "دسته بندی", href: "/category" },
   { name: "درباره ما", href: "/about" },
-  { name: " تماس با ما", href: "/contact" },
+  { name: "تماس با ما", href: "/contact" },
 ];
 
 export default function Navbar() {
@@ -24,39 +25,33 @@ export default function Navbar() {
             {(pathname === item.href) && (
               <div
                 className={`
-            rounded-full w-1 h-1 mr-2 
-            ${pathname === item.href ? "bg-yellow-700" : "bg-gray-700"} 
-             transition-opacity duration-300
-          `}
+                  rounded-full w-1 h-1 mr-2 
+                  ${pathname === item.href ? "bg-yellow-700" : "bg-gray-700"} 
+                  transition-opacity duration-300
+                `}
               ></div>
             )}
-            <a
+            <Link
               href={item.href}
               className={`mr-2 transition-colors duration-300 ${pathname === item.href ? "text-yellow-700" : "hover:text-yellow-700"
                 }`}
             >
               {item.name}
-            </a>
+            </Link>
           </li>
         ))}
       </ul>
 
       <div className="flex items-center gap-4 text-black">
-        <a
-          href='/login'
-        >
+        <Link href="/login">
           <User size={20} color="#171717" className="cursor-pointer hover:text-yellow-700 hover:scale-110 transition-transform duration-300" />
-        </a>
-        <a
-          href='/'
-        >
+        </Link>
+        <Link href="/">
           <SearchNormal size={20} color="#171717" className="cursor-pointer hover:text-yellow-700 hover:scale-110 transition-transform duration-300" />
-        </a>
-        <a
-          href='/checkout'
-        >
+        </Link>
+        <Link href="/checkout">
           <ShoppingCart size={20} color="#171717" className="cursor-pointer hover:text-yellow-700 hover:scale-110 transition-transform duration-300" />
-        </a>
+        </Link>
       </div>
     </nav>
   );

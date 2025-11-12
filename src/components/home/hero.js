@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function Hero() {
   return (
     <section className="relative w-full">
@@ -18,9 +20,12 @@ export default function Hero() {
           <p className="text-white text-lg">
             لباس‌هایی با طراحی منحصربه‌فرد و دوخته‌شده با عشق، مخصوص شما که خاص هستید.
           </p>
-          <button className="bg-yellow-700 text-white px-6 py-3 rounded-md hover:bg-yellow-700 transition-all">
+          <Link
+            href="/shop"
+            className="bg-yellow-700 text-white px-6 py-3 rounded-md hover:bg-yellow-700 transition-all inline-block"
+          >
             الان ببین
-          </button>
+          </Link>
         </div>
       </div>
 
@@ -41,9 +46,12 @@ export default function Hero() {
           <p className="text-sm text-white">
             لباس‌هایی با طراحی منحصربه‌فرد و دوخته‌شده با عشق، مخصوص شما که خاص هستید.
           </p>
-          <button className="bg-yellow-700 text-white px-4 py-1 rounded-md hover:bg-yellow-700 transition-all">
+          <Link
+            href="/shop"
+            className="bg-yellow-700 text-white px-4 py-1 rounded-md hover:bg-yellow-700 transition-all inline-block"
+          >
             الان ببین
-          </button>
+          </Link>
         </div>
       </div>
     </section>
