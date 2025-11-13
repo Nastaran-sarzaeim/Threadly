@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import { formatPrice } from "@/utils/utils";
+import Link from "next/link";
 
 export default function ProductCard({ product }) {
     const { id, name, image, price, oldPrice, tag } = product;
@@ -31,9 +32,12 @@ export default function ProductCard({ product }) {
                         {tag}
                     </span>
                 )}
-                <button className="absolute inset-0 bg-black/20 group-hover/image:bg-black/50 flex items-center justify-center text-white text-lg font-semibold transition-all duration-300 opacity-0 group-hover/image:opacity-100 cursor-pointer">
+                <Link
+                    href={`/shop/${id}`}
+                    className="absolute inset-0 bg-black/20 group-hover/image:bg-black/50 flex items-center justify-center text-white text-lg font-semibold transition-all duration-300 opacity-0 group-hover/image:opacity-100 cursor-pointer"
+                >
                     مشاهده جزئیات
-                </button>
+                </Link>
             </div>
 
             <div className="p-4 text-right">
