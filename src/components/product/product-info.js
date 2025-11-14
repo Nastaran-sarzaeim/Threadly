@@ -1,4 +1,5 @@
 "use client";
+import { formatPrice } from "@/utils/utils";
 import { useState } from "react";
 
 export default function ProductInfo({ product }) {
@@ -7,7 +8,7 @@ export default function ProductInfo({ product }) {
   return (
     <div className="space-y-5">
       <h1 className="text-2xl font-bold">{product.name}</h1>
-      <p className="text-lg text-gray-700">{product.price}</p>
+      <p className="text-lg text-gray-700">{formatPrice(product.price)}</p>
 
       <div className="flex items-center gap-1 text-yellow-500">
         {"★".repeat(Math.floor(product.rating))}
@@ -23,12 +24,12 @@ export default function ProductInfo({ product }) {
       </div>
 
       <div>
-        <h3 className="text-sm font-medium mb-2">اندازه</h3>
+        <h3 className="text-sm font-medium mb-2">سایز</h3>
         <div className="flex gap-2">
           {product.sizes.map((size) => (
             <button
               key={size}
-              className="border rounded-full px-3 py-1 hover:bg-gray-100 transition"
+              className="border rounded-lg px-3 py-1 hover:bg-gray-100 transition"
             >
               {size}
             </button>

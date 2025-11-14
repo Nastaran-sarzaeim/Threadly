@@ -4,7 +4,7 @@ import { formatPrice } from "@/utils/utils";
 import Link from "next/link";
 
 export default function ProductCard({ product }) {
-    const { id, name, image, price, oldPrice, tag } = product;
+    const { id, name, images, price, oldPrice, tag } = product;
 
     const getTagColor = (tag) => {
         if (tag === "جدید") return "bg-green-700";
@@ -19,7 +19,7 @@ export default function ProductCard({ product }) {
         >
             <div className="relative group/image">
                 <img
-                    src={image}
+                    src={images[0]}
                     alt={name}
                     className="w-full h-72 object-cover group-hover/image:opacity-75 transition-all duration-300"
                 />

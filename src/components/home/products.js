@@ -2,84 +2,23 @@ import { formatPrice } from "@/utils/utils";
 import { ArrowLeft2 } from "iconsax-react";
 import ProductCard from "./product-card";
 import Link from "next/link";
-
-const products = [
-  {
-    id: 1,
-    name: "پیراهن لینن تابستانی",
-    price: "۴۹۰۰۰۰",
-    oldPrice: "۶۹۰۰۰۰",
-    image: "/products/cloth-2.jpg",
-    tag: "۳۰٪",
-  },
-  {
-    id: 2,
-    name: "کاپشن جین کژوال",
-    price: "۸۹۰۰۰۰",
-    image: "/products/cloth-3.jpg",
-    tag: "جدید",
-  },
-  {
-    id: 3,
-    name: "پیراهن مشکی کلاسیک",
-    price: "۱۲۰۰۰۰۰",
-    oldPrice: "۱۴۰۰۰۰۰",
-    image: "/products/cloth-5.jpg",
-    tag: "۱۵٪",
-  },
-  {
-    id: 4,
-    name: "هودی نخی",
-    price: "۵۹۰۰۰۰",
-    image: "/products/cloth-20.jpg",
-    tag: "جدید",
-  },
-  {
-    id: 5,
-    name: "پیراهن لینن تابستانی",
-    price: "۴۹۰۰۰۰",
-    oldPrice: "۶۹۰۰۰۰",
-    image: "/products/cloth-26.jpg",
-    tag: "۳۰٪",
-  },
-  {
-    id: 6,
-    name: "کاپشن جین کژوال",
-    price: "۸۹۰۰۰۰",
-    image: "/products/cloth-31.jpg",
-    tag: "جدید",
-  },
-  {
-    id: 7,
-    name: "پیراهن مشکی کلاسیک",
-    price: "۱۲۰۰۰۰۰",
-    oldPrice: "۱۴۰۰۰۰۰",
-    image: "/products/cloth-32.jpg",
-    tag: "۱۵٪",
-  },
-  {
-    id: 8,
-    name: "هودی نخی",
-    price: "۵۹۰۰۰۰",
-    image: "/products/cloth-24.jpg",
-    tag: "جدید",
-  },
-];
+import { products } from "@/data/products";
 
 export default function Products() {
+  const limitedProducts = products.slice(0, 8);
   return (
     <section className="py-16 px-6 md:px-16 text-center">
       <h2 className="text-2xl font-semibold mb-10">محصولات ما</h2>
 
       <div className="flex md:hidden gap-4 overflow-x-auto pb-4">
-        {products.map((p) => (
+        {limitedProducts.map((p) => (
           <div
             key={p.id}
             className="min-w-[70%] sm:min-w-[45%] bg-white rounded-lg overflow-hidden shadow-sm"
           >
             <div className="relative group/image">
               <img
-                src={p.image}
+                src={p.images[0]}
                 alt={p.name}
                 className="w-full h-64 object-cover group-hover/image:opacity-75 transition-all duration-300"
               />
@@ -115,7 +54,7 @@ export default function Products() {
       </div>
 
       <div className="hidden md:grid grid-cols-2 lg:grid-cols-4 gap-6">
-        {products.map((p) => (
+        {limitedProducts.map((p) => (
           <ProductCard product={p} key={p.id} />
         ))}
       </div>
