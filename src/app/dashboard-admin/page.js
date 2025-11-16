@@ -5,10 +5,10 @@ import AddProductForm from "@/components/dashboard/add-product";
 import Sidebar from "@/components/dashboard/sidebar";
 import ProductAdminList from "@/components/dashboard/product-admin-list";
 import TransactionsTable from "@/components/dashboard/transactions-table";
+import { products } from "@/data/products";
 
 export default function AdminPage() {
     const router = useRouter();
-    const [products, setProducts] = useState([]);
     const [transactions, setTransactions] = useState([]);
     const [activeTab, setActiveTab] = useState("productList");
 
@@ -16,33 +16,15 @@ export default function AdminPage() {
         const role = localStorage.getItem("role");
         if (role !== "admin") router.push("/login");
 
-        const fetchAllProducts = async () => {
-            let allProducts = [];
-            let skip = 0;
-            const limit = 200;
-            let total = 0;
-
-            do {
-                const res = await fetch(`https://dummyjson.com/products?limit=${limit}&skip=${skip}`);
-                const data = await res.json();
-                allProducts = [...allProducts, ...data.products];
-                total = data.total;
-                skip += limit;
-            } while (skip < total);
-
-            setProducts(allProducts);
-        };
-
         setTransactions([
-            { id: 1, user: "Ali", product: "Laptop", amount: 1200 },
-            { id: 2, user: "Sara", product: "Phone", amount: 800 },
-        ]);
+            { id: 1, user: "علی", product: "تی‌شرت مردانه", amount: 250000 },
+            { id: 2, user: "سارا", product: "هودی بچگانه", amount: 350000 },
+          ]);
 
-        fetchAllProducts().catch(console.error);
     }, []);
 
     const handleDeleteProduct = (id) => {
-        setProducts(products.filter(p => p.id !== id));
+        // setProducts(products.filter(p => p.id !== id));
     };
 
     return (

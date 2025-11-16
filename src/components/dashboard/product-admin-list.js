@@ -1,20 +1,23 @@
 "use client";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 
 export default function ProductAdminList({ products, handleDeleteProduct }) {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
   const itemsPerPage = 6;
 
+  const filteredProducts = useMemo(() => {
+    if (!searchQuery) return products;
+    return products.filter(product =>
+      product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      product.category.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  }, [products, searchQuery]);
+
+  const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentProducts = products.slice(indexOfFirstItem, indexOfLastItem);
-  const totalPages = Math.ceil(products.length / itemsPerPage);
-
-  const filteredProducts = currentProducts.filter(product =>
-    product.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    product.category.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const currentProducts = filteredProducts.slice(indexOfFirstItem, indexOfLastItem);
 
   return (
     <div>
@@ -22,17 +25,34 @@ export default function ProductAdminList({ products, handleDeleteProduct }) {
         type="text"
         placeholder="جستجو محصولات..."
         value={searchQuery}
-        onChange={e => setSearchQuery(e.target.value)}
+        onChange={e => {
+          setSearchQuery(e.target.value);
+          setCurrentPage(1); 
+        }}
         className="border p-2 rounded mb-4 w-full"
       />
+
       <h3 className="text-xl font-bold mb-4">لیست محصولات</h3>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {filteredProducts.map(product => (
+        {currentProducts.map(product => (
           <div key={product.id} className="bg-white p-4 shadow rounded">
-            <h4 className="font-bold">{product.title}</h4>
-            <p>{product.description}</p>
-            <p className="font-semibold">قیمت: ${product.price}</p>
-            <p className="text-sm text-gray-500">دسته‌بندی: {product.category}</p>
+            {product.images && product.images[0] && (
+              <img
+                src={product.images[0]}
+                alt={product.name}
+                className="w-full h-48 object-cover mb-2 rounded"
+              />
+            )}
+            <h4 className="font-bold">{product.name}</h4>
+            <p className="text-sm text-gray-500">{product.category}</p>
+            <p className="text-gray-700 mt-1">{product.description}</p>
+            <p className="font-semibold mt-2">قیمت: {product.price} تومان</p>
+            {product.oldPrice && (
+              <p className="line-through text-gray-400">{product.oldPrice} تومان</p>
+            )}
+            {product.tag && (
+              <span className="bg-yellow-200 text-yellow-800 px-2 py-1 rounded text-xs">{product.tag}</span>
+            )}
             <button
               onClick={() => handleDeleteProduct(product.id)}
               className="mt-2 bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
