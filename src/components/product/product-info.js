@@ -30,6 +30,7 @@ export default function ProductInfo({ product }) {
             <button
               key={size}
               className="border rounded-lg px-3 py-1 hover:bg-gray-100 transition"
+              onClick={() => console.log(size)}
             >
               {size}
             </button>
@@ -45,6 +46,7 @@ export default function ProductInfo({ product }) {
               key={color}
               className="w-6 h-6 rounded-full cursor-pointer border border-gray-300"
               style={{ backgroundColor: color }}
+              onClick={() => console.log(color)}
             ></div>
           ))}
         </div>
