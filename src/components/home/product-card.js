@@ -11,6 +11,34 @@ export default function ProductCard({ product }) {
         if (tag.includes("٪")) return "bg-red-700";
         return "bg-yellow-700";
     };
+    const handleAddToCart = () => {
+        const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
+        if (!loggedInUser) {
+          alert("لطفاً ابتدا وارد شوید!");
+          return;
+        }
+    
+        const cart = loggedInUser.cart || [];
+        const existingIndex = cart.findIndex(item => item.id === id);
+    
+        if (existingIndex !== -1) {
+          cart[existingIndex].qty += 1; 
+        } else {
+          cart.push({ ...product, qty: 1 });
+        }
+    
+        loggedInUser.cart = cart;
+        localStorage.setItem("loggedInUser", JSON.stringify(loggedInUser));
+    
+        const users = JSON.parse(localStorage.getItem("users")) || [];
+        const userIndex = users.findIndex(u => u.username === loggedInUser.username);
+        if (userIndex !== -1) {
+          users[userIndex].cart = cart;
+          localStorage.setItem("users", JSON.stringify(users));
+        }
+    
+        alert(`محصول "${name}" به سبد خرید اضافه شد!`);
+      };
 
     return (
         <div
@@ -53,7 +81,9 @@ export default function ProductCard({ product }) {
             </div>
 
             <div className="flex justify-center items-center mb-6">
-                <button className="flex items-center justify-center text-yellow-700 bg-white rounded px-4 py-1 border-yellow-700 border cursor-pointer hover:bg-yellow-700 hover:text-white hover:border-white duration-500">
+                <button
+                    onClick={handleAddToCart}
+                    className="flex items-center justify-center text-yellow-700 bg-white rounded px-4 py-1 border-yellow-700 border cursor-pointer hover:bg-yellow-700 hover:text-white hover:border-white duration-500">
                     اضافه کردن به سبد
                 </button>
             </div>

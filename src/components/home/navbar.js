@@ -15,15 +15,12 @@ const menuItems = [
 
 export default function Navbar() {
   const pathname = usePathname();
-  const [mounted, setMounted] = useState(false);
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
-    setMounted(true);
     const data = localStorage.getItem("loggedInUser");
     if (data) setUser(JSON.parse(data));
   }, []);
-
-  const [user, setUser] = useState(null);
 
   const logout = () => {
     localStorage.removeItem("loggedInUser");
@@ -57,14 +54,14 @@ export default function Navbar() {
       </ul>
 
       <div className="flex items-center gap-4 text-black">
-        {mounted && !user && (
+        {!user && (
           <Link href="/login" className="hover:text-yellow-700 transition">
             ورود / ثبت‌نام
           </Link>
         )}
 
 
-        {mounted && user && (
+        {user && (
           <div className="group relative">
             <span className="cursor-pointer font-medium hover:text-yellow-700 transition">
               {user.username}

@@ -7,7 +7,7 @@ import { Eye, EyeSlash } from "iconsax-react";
 export default function LoginPage() {
     const router = useRouter();
 
-    const [mode, setMode] = useState("login"); // login | register
+    const [mode, setMode] = useState("login");
 
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -23,39 +23,35 @@ export default function LoginPage() {
 
         if (mode === "register") {
             if (!username || !password) return setError("همه فیلدها رو پر کن عشقم");
+            if (password !== repeatPassword) return setError("رمزها یکی نیست گلم");
 
-            if (password !== repeatPassword)
-                return setError("رمزها یکی نیست گلم");
-
-            const exists = users.find((u) => u.username === username);
+            const exists = users.find(u => u.username === username);
             if (exists) return setError("این نام کاربری قبلاً ثبت شده");
 
             const newUser = {
                 username,
                 password,
-                role:
-                    username === "nastaran" && password === "123456#"
-                        ? "admin"
-                        : "user",
+                role: username === "nastaran" && password === "123456#" ? "admin" : "user",
             };
 
             localStorage.setItem("users", JSON.stringify([...users, newUser]));
             localStorage.setItem("loggedInUser", JSON.stringify(newUser));
 
-            return router.push("/");
+            setTimeout(() => {
+                window.location.href = newUser.role === "admin" ? "/dashboard-admin" : "/";
+            }, 100);
+
+            return;
         }
 
-        const foundUser = users.find(
-            (u) => u.username === username && u.password === password
-        );
-
-        if (!foundUser) {
-            return setError("نام کاربری یا رمز اشتباهه");
-        }
+        const foundUser = users.find(u => u.username === username && u.password === password);
+        if (!foundUser) return setError("نام کاربری یا رمز اشتباهه");
 
         localStorage.setItem("loggedInUser", JSON.stringify(foundUser));
 
-        router.push("/");  
+        setTimeout(() => {
+            window.location.href = foundUser.role === "admin" ? "/dashboard-admin" : "/";
+        }, 100);
     };
 
     return (
@@ -64,7 +60,6 @@ export default function LoginPage() {
                 {mode === "login" ? "ورود" : "ثبت‌نام"}
             </h2>
 
-            {/* username */}
             <input
                 className="w-full border p-2 rounded mb-3"
                 placeholder="نام کاربری"
@@ -72,7 +67,6 @@ export default function LoginPage() {
                 onChange={(e) => setUsername(e.target.value)}
             />
 
-            {/* password */}
             <div className="relative mb-3">
                 <input
                     type={showPass ? "text" : "password"}
@@ -89,7 +83,6 @@ export default function LoginPage() {
                 </span>
             </div>
 
-            {/* repeat password */}
             {mode === "register" && (
                 <div className="relative mb-3">
                     <input
