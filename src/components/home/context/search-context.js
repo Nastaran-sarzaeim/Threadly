@@ -6,25 +6,30 @@ const SearchContext = createContext();
 
 export function SearchProvider({ children }) {
   const [query, setQuery] = useState("");
+  const [category, setCategory] = useState("همه");
   const [results, setResults] = useState([]);
 
-  const searchProducts = (text) => {
+  const searchProducts = (text = "", cat = category) => {
     setQuery(text);
+    setCategory(cat);
 
-    if (!text.trim()) {
-      setResults([]);
-      return;
+    let filtered = products;
+
+    if (text.trim()) {
+      filtered = filtered.filter((item) =>
+        item.name.toLowerCase().includes(text.toLowerCase())
+      );
     }
 
-    const filtered = products.filter((item) =>
-      item.name.toLowerCase().includes(text.toLowerCase())
-    );
+    if (cat !== "همه") {
+      filtered = filtered.filter((item) => item.category === cat);
+    }
 
     setResults(filtered);
   };
 
   return (
-    <SearchContext.Provider value={{ query, results, searchProducts }}>
+    <SearchContext.Provider value={{ query, category, results, searchProducts, setQuery }}>
       {children}
     </SearchContext.Provider>
   );
