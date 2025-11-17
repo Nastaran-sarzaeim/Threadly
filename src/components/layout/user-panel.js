@@ -2,12 +2,14 @@
 
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useUser } from "../login/context/user-context";
 
 export default function UserPanel() {
     const { user, logout } = useUser();
     const [open, setOpen] = useState(false);
     const panelRef = useRef(null);
+    const router = useRouter();
 
     useEffect(() => {
         const handleClickOutside = (e) => {
@@ -20,6 +22,11 @@ export default function UserPanel() {
     }, []);
 
     if (!user) return null;
+
+    const handleLogout = () => {
+        logout();
+        router.push("/");
+    };
 
     return (
         <div className="relative inline-block text-right select-none" ref={panelRef}>
@@ -52,11 +59,8 @@ export default function UserPanel() {
                     </div>
 
                     <button
-                        className="text-red-500 text-lg font-semibold hover:text-red-600"
-                        onClick={() => {
-                            logout();
-                            setOpen(false);
-                        }}
+                        className="text-red-500 text-lg font-semibold hover:text-red-600 cursor-pointer"
+                        onClick={handleLogout}
                     >
                         خروج
                     </button>
