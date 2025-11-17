@@ -3,9 +3,12 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Eye, EyeSlash } from "iconsax-react";
+import { useSnackbar } from "notistack";
+import CustomAlert from "@/components/alert/custom-alert";
 
 export default function LoginPage() {
     const router = useRouter();
+    const { enqueueSnackbar } = useSnackbar();
 
     const [mode, setMode] = useState("login");
 
@@ -22,11 +25,30 @@ export default function LoginPage() {
         const users = JSON.parse(localStorage.getItem("users")) || [];
 
         if (mode === "register") {
-            if (!username || !password) return setError("همه فیلدها رو پر کن عشقم");
-            if (password !== repeatPassword) return setError("رمزها یکی نیست گلم");
+            if (!username || !password) {
+                enqueueSnackbar(
+                    <CustomAlert message="همه فیلدها رو پر کنید" type="error" />,
+                    { anchorOrigin: { vertical: "top", horizontal: "center" }, autoHideDuration: 2000 }
+                );
+                return;
+            }
+
+            if (password !== repeatPassword) {
+                enqueueSnackbar(
+                    <CustomAlert message="رمزها یکی نیست!" type="error" />,
+                    { anchorOrigin: { vertical: "top", horizontal: "center" }, autoHideDuration: 2000 }
+                );
+                return;
+            }
 
             const exists = users.find(u => u.username === username);
-            if (exists) return setError("این نام کاربری قبلاً ثبت شده");
+            if (exists) {
+                enqueueSnackbar(
+                    <CustomAlert message="این نام کاربری قبلاً ثبت شده" type="error" />,
+                    { anchorOrigin: { vertical: "top", horizontal: "center" }, autoHideDuration: 2000 }
+                );
+                return;
+            }
 
             const newUser = {
                 username,
@@ -37,21 +59,37 @@ export default function LoginPage() {
             localStorage.setItem("users", JSON.stringify([...users, newUser]));
             localStorage.setItem("loggedInUser", JSON.stringify(newUser));
 
+            enqueueSnackbar(
+                <CustomAlert message="ثبت‌نام موفق بود! خوش اومدی" type="success" />,
+                { anchorOrigin: { vertical: "top", horizontal: "center" }, autoHideDuration: 2000 }
+            );
+
             setTimeout(() => {
-                window.location.href = newUser.role === "admin" ? "/dashboard-admin" : "/";
-            }, 100);
+                window.location.href = foundUser.role === "admin" ? "/dashboard-admin" : "/";
+              }, 1000);
 
             return;
         }
 
         const foundUser = users.find(u => u.username === username && u.password === password);
-        if (!foundUser) return setError("نام کاربری یا رمز اشتباهه");
+        if (!foundUser) {
+            enqueueSnackbar(
+                <CustomAlert message="نام کاربری یا رمز اشتباهه" type="error" />,
+                { anchorOrigin: { vertical: "top", horizontal: "center" }, autoHideDuration: 2000 }
+            );
+            return;
+        }
 
         localStorage.setItem("loggedInUser", JSON.stringify(foundUser));
 
+        enqueueSnackbar(
+            <CustomAlert message="ورود موفق! خوش آمدی" type="success" />,
+            { anchorOrigin: { vertical: "top", horizontal: "center" }, autoHideDuration: 2000 }
+        );
+
         setTimeout(() => {
             window.location.href = foundUser.role === "admin" ? "/dashboard-admin" : "/";
-        }, 100);
+        }, 1000);
     };
 
     return (

@@ -6,27 +6,27 @@ export default function Features() {
     const features = [
         {
             title: "کیفیت بالا",
-            icon: <TickCircle size="32" color="#F59E0B" variant="Bold" />,
+            icon: <TickCircle size="32" color="#B88E2F" variant="Bold" />,
         },
         {
             title: "گارانتی محصول",
-            icon: <ShieldTick size="32" color="#F59E0B" variant="Bold" />,
+            icon: <ShieldTick size="32" color="#B88E2F" variant="Bold" />,
         },
         {
             title: "ارسال رایگان",
-            icon: <Truck size="32" color="#F59E0B" variant="Bold" />,
+            icon: <Truck size="32" color="#B88E2F" variant="Bold" />,
         },
         {
             title: "پشتیبانی ۲۴/۷",
-            icon: <Headphones size="32" color="#F59E0B" variant="Bold" />,
+            icon: <Headphones size="32" color="#B88E2F" variant="Bold" />,
         },
         {
             title: "تخفیف ویژه",
-            icon: <DiscountCircle size="32" color="#F59E0B" variant="Bold" />,
+            icon: <DiscountCircle size="32" color="#B88E2F" variant="Bold" />,
         },
         {
             title: "بازگشت آسان",
-            icon: <ArrowCircleLeft2 size="32" color="#F59E0B" variant="Bold" />,
+            icon: <ArrowCircleLeft2 size="32" color="#B88E2F" variant="Bold" />,
         },
     ];
 
@@ -38,7 +38,7 @@ export default function Features() {
             {features.map((f, i) => (
                 <div
                     key={i}
-                    className="flex flex-col items-center justify-center bg-orange-50 rounded-lg p-4 shadow-sm aspect-square"
+                    className="flex flex-col items-center justify-center bg-[#FAF3EA] rounded-lg p-4 shadow-sm aspect-square"
                 // className="flex flex-col items-center justify-center spect-square"
                 >
                     <div className="mb-3">{f.icon}</div>

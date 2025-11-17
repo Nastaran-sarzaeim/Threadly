@@ -1,32 +1,13 @@
 "use client";
-import { useEffect, useState } from "react";
+
+import { useUser } from "../login/context/user-context";
 
 export default function CheckoutList() {
-  const [cartProducts, setCartProducts] = useState([]);
-
-  useEffect(() => {
-    const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
-    if (loggedInUser && loggedInUser.cart) {
-      setCartProducts(loggedInUser.cart);
-    }
-  }, []);
-
-  const updateCart = (updatedCart) => {
-    setCartProducts(updatedCart);
-
-    const users = JSON.parse(localStorage.getItem("users")) || [];
-    const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
-    const userIndex = users.findIndex(u => u.username === loggedInUser.username);
-
-    if (userIndex !== -1) {
-      users[userIndex].cart = updatedCart;
-      localStorage.setItem("users", JSON.stringify(users));
-      localStorage.setItem("loggedInUser", JSON.stringify(users[userIndex]));
-    }
-  };
+  const { user, updateCart } = useUser();
+  const cartProducts = user?.cart || [];
 
   const handleQtyChange = (id, qty) => {
-    const updatedCart = cartProducts.map(item => 
+    const updatedCart = cartProducts.map(item =>
       item.id === id ? { ...item, qty: Number(qty) } : item
     );
     updateCart(updatedCart);
