@@ -1,11 +1,13 @@
 "use client";
 
+import Link from "next/link";
+
 export default function FooterSection() {
   return (
     <footer className="bg-gray-50 py-10 px-6 md:px-20 border-t text-right">
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10">
         <div>
-          <h3 className="font-bold text-xl mb-3 text-yellow-700">Threadly</h3>
+          <Link className="text-2xl font-bold text-yellow-700" href='/'>Threadly</Link>
 
           <p className="text-gray-500 text-sm leading-6">
             خیابان دانشگاه، پلاک ۴۰۰، طبقه دوم، سوئیت ۲۰۰

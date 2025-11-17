@@ -4,6 +4,8 @@ import Link from "next/link";
 import { SearchNormal, ShoppingCart, User } from "iconsax-react";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import UserPanel from "../layout/user-panel";
+import HoverCart from "../layout/hover-cart";
 
 const menuItems = [
   { name: "خانه", href: "/" },
@@ -28,7 +30,7 @@ export default function Navbar() {
   };
   return (
     <nav className="flex items-center justify-between py-4 px-8 shadow-sm bg-white sticky top-0 z-50">
-      <h1 className="text-2xl font-bold text-yellow-700">Threadly</h1>
+      <Link className="text-2xl font-bold text-yellow-700" href='/'>Threadly</Link>
 
       <ul className="hidden md:flex items-center gap-8 text-gray-700 font-medium">
         {menuItems.map((item) => (
@@ -62,35 +64,12 @@ export default function Navbar() {
 
 
         {user && (
-          <div className="group relative">
-            <span className="cursor-pointer font-medium hover:text-yellow-700 transition">
-              {user.username}
-            </span>
-
-            <div className="absolute left-0 w-28 opacity-0 group-hover:opacity-100 group-hover:pointer-events-auto pointer-events-none transition bg-white border rounded shadow-sm p-2">
-              <Link href={user.role === "admin" ? "/dashboard-admin" : "/profile"} onClick={() => {
-
-              }} className="block hover:text-yellow-700 py-1">
-                پروفایل
-              </Link>
-              <button
-                onClick={logout}
-                className="block text-left w-full hover:text-yellow-700 py-1"
-              >
-                خروج
-              </button>
-            </div>
-          </div>
+          <UserPanel />
         )}
-        {/* <Link href="/login">
-          <User size={20} color="#171717" className="cursor-pointer hover:text-yellow-700 hover:scale-110 transition-transform duration-300" />
-        </Link> */}
         <Link href="/">
           <SearchNormal size={20} color="#171717" className="cursor-pointer hover:text-yellow-700 hover:scale-110 transition-transform duration-300" />
         </Link>
-        <Link href="/checkout">
-          <ShoppingCart size={20} color="#171717" className="cursor-pointer hover:text-yellow-700 hover:scale-110 transition-transform duration-300" />
-        </Link>
+        <HoverCart />
       </div>
     </nav>
   );
