@@ -21,25 +21,26 @@ export function UserProvider({ children }) {
     setUser(null);
   };
 
+  const updateUser = (updatedUser) => {
+    localStorage.setItem("loggedInUser", JSON.stringify(updatedUser));
+    setUser(updatedUser);
+  };
+
   const updateCart = (cart) => {
     if (!user) return;
     const updated = { ...user, cart };
-    localStorage.setItem("loggedInUser", JSON.stringify(updated));
-    setUser(updated);
+    updateUser(updated);
   };
 
   const removeFromCart = (id) => {
     if (!user || !user.cart) return;
-  
     const filtered = user.cart.filter((item) => item.id !== id);
     const updated = { ...user, cart: filtered };
-  
-    localStorage.setItem("loggedInUser", JSON.stringify(updated));
-    setUser(updated);
+    updateUser(updated);
   };
 
   return (
-    <UserContext.Provider value={{ user, login, logout, updateCart, removeFromCart }}>
+    <UserContext.Provider value={{ user, login, logout, updateUser, updateCart, removeFromCart }}>
       {children}
     </UserContext.Provider>
   );
